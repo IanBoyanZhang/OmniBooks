@@ -1,4 +1,4 @@
-angular.module('omnibooks.database', ['firebase', 'libServices'])
+angular.module('omnibooks.database', ['firebase'])
 .factory('fireBase', function($firebaseArray, $firebaseObject) {
     var myDataRef = new Firebase('https://blistering-inferno-5024.firebaseio.com/');
 
@@ -143,6 +143,22 @@ angular.module('omnibooks.database', ['firebase', 'libServices'])
       myDataRef.unauth();
     };
 
+    // user_rating
+    var enterUserRating = function(org, bookId, seller, buyer, star, comment) {
+      var ratingDetail = {
+        // bookId: bookId,
+        seller: seller,
+        buyer: buyer,
+        star: star,
+        comment: comment
+      };
+      // push book details in org books library and user library bookshelf nodes
+      // var newBookRef = myDataRef.child(org).child('books').push(bookDetails);
+      // var bookID = newBookRef.key();
+      myDataRef.child(org).child('users').child(username).child('rating').child(bookId).set(ratingDetails);
+
+    }
+
     return {
       enterBook: enterBook,
       deleteBook: deleteBook,
@@ -160,14 +176,17 @@ angular.module('omnibooks.database', ['firebase', 'libServices'])
     };
   })
 .factory('libServices', function($firebaseArray, $firebaseObject) {
+  var myDataRef = new Firebase('https://blistering-inferno-5024.firebaseio.com/');
 
-  var libEnterBook = function(org, username, title, img, author, isbn) {
+  var libEnterBook = function(org, username, title, img, author, isbn, currOwner) {
     var bookDetails = {
       title: title,
       img: img,
       author: author,
       isbn: isbn,
-      createdBy: username
+      createdBy: username,
+      // potential modification: current_holder
+      currOwner: currOwner
     };
     // push book details in org books library and user library bookshelf nodes
     var newBookRef = myDataRef.child(org).child('libBooks').push(bookDetails);
@@ -207,6 +226,12 @@ angular.module('omnibooks.database', ['firebase', 'libServices'])
     return $firebaseArray(ref);
   };
 
+  var libGetUserId = function(org, username) {
+    // var ref = myDataRef.child(org).child('users').child(username);
+    var ref = myDataRef.child(org).child('users');
+    // return ref.key();
+    return ref;
+  };
   // transaction operation
   return {
     libEnterBook: libEnterBook,
@@ -214,6 +239,7 @@ angular.module('omnibooks.database', ['firebase', 'libServices'])
     libUpdateBook: libUpdateBook,
     libGetOrgBook: libGetOrgBook,
     libGetUserBook: libGetUserBook,
-    libGetUserBookshelf: libGetUserBookshelf
+    libGetUserBookshelf: libGetUserBookshelf,
+    libGetUserId : libGetUserId
   }
 })

@@ -22,5 +22,6 @@ angular.module('omnibooks.library', ['ngFx','ngAnimate'])
       };
       currentOrg = auth.getOrg();
       $scope.books = fireBase.getOrgBook(currentOrg); //need to adjust to library books
+      // $scope.books = fireBase.getOrgBook(currentOrg); //need to adjust to library books
     }
   ]);

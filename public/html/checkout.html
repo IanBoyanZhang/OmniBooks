@@ -14,6 +14,7 @@
 <div ng-controller="MailController" style="margin-left: 50%">
     <div class="b-title"> {{book.title}} </div>
     <div class="m-title">by {{book.author}} (Author)</div>
+    <a ng-click="findUser(book)"><div class="b-title">Posted by {{book.createdBy}}</div></a>
   <div style="text-align: center"><button ng-click="toggleMsgModal()" class="btn btn-default">Send Checkout Request</button></div>
   <modal show='modalMsgShown' width='750px'>
     <form>

@@ -73,6 +73,13 @@ angular.module('omnibooks.profile', ['ui.bootstrap','ngFileUpload','xeditable'])
     };
     fireBase.updateBook($scope.org, $scope.username, $scope.bookEdit.$id, update);
   };
+
+  $scope.toggleDeleteModal = function(book) {
+    // console.log(book);
+    $scope.bookEdit = book;
+    fireBase.deleteBook($scope.org, $scope.username, $scope.bookEdit.$id);
+  };
+
 }])
 .directive('modal', function() {
   return {
